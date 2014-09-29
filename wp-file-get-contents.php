@@ -8,8 +8,7 @@
  * License URI: http://www.gnu.org/licenses/gpl.txt
  * Description: A WordPress shortcode for PHP's file_get_contents()
  * Requires At Least: 3.0
- * Tested Up To: 3.9.1
- * Version: 1.0
+ * Version: 1.1
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -53,7 +52,8 @@ if ( ! class_exists( 'wp_file_get_contents' ) ) {
 		}
 
 		public function shortcode( $atts, $content = null ) { 
-			$cache = array_key_exists( 'cache', $atts ) ? $atts['cache'] : 300;
+			$cache = array_key_exists( 'cache', $atts ) ? $atts['cache'] : 900;
+			$more = array_key_exists( 'more', $atts ) ? $atts['more'] : true;
 
 			if ( ! empty( $atts['url'] ) && preg_match( '/^https?:\/\//', $atts['url'] ) )
 				$url = $atts['url'];
@@ -77,6 +77,17 @@ if ( ! class_exists( 'wp_file_get_contents' ) ) {
 					$content = file_get_contents( $url );
 				}
 			}
+
+			if ( ! is_singular() && $more ) {
+				global $post;
+				$parts = get_extended( $content );
+				if ( $parts['more_text'] )
+					$content = $parts['main'].apply_filters( 'the_content_more_link', 
+						' <a href="'.get_permalink().'#more-{'.$post->ID.'}" class="more-link">'.$parts['more_text'].'</a>', 
+							$parts['more_text'] );
+				else $content = $parts['main'];
+			}
+
 			return $content;
 		}
 	}
