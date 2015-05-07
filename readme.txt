@@ -1,11 +1,11 @@
-===  wp-file-get-contents ===
+===  WP file_get_contents() ===
 Contributors: jsmoriss
 Tags: file_get_contents, shortcode, include, file, url, body, content
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
-Tested Up To: 4.1.1
-Stable Tag: 1.0
+Tested Up To: 4.2.2
+Stable Tag: 1.1
 
 A WordPress shortcode for PHP's file_get_contents() function.
 
@@ -18,18 +18,23 @@ Examples:
 `
 [wp-file-get-contents url="http://example.com/dir/file.html"]
 
+[wp-file-get-contents url="http://example.com/counter/" cache="0"]
+
 [wp-file-get-contents url="file://dir/file.html"]
 
-[wp-file-get-contents file="/dir/file.html"]
+[wp-file-get-contents file="/dir/file.txt" pre="true" filter="my_custom_filters" cache="3600"]
 `
 
 <strong>Note that all local file paths are relative to the `wp-contents/` folder</strong>. You cannot include files outside of the `wp-contents/` folder. As an example, `file://dir/file.html` and/or `/dir/file.html` will be interpreted as `wordpress/wp-contents/dir/file.html`. The `..` folder name is also removed from file paths to prevent backing out of the `wp-content/` folder.
 
 Shortcode attributes:
 
-* url = http, https, or file URI
-* file = path to a local file (relative to the `wp-content/` folder)
-* cache = number of seconds to cache the content in the transient cache (defaults to 300 seconds)
+* url = http, https, or file URI.
+* file = path to a local file (relative to the `wp-content/` folder).
+* cache = number of seconds to cache the content in the transient cache (defaults to 300 seconds).
+* pre = wrap the content in &lt;pre&gt;&lt;/pre&gt; HTML tags.
+* class = wrap the content in the specified div class.
+* filter = apply the specified filter to the content.
 
 == Installation ==
 
@@ -53,7 +58,18 @@ Shortcode attributes:
 
 == Changelog ==
 
-= Version 1.0 =
+= Version 1.1 (2015/05/07) =
 
-* Initial release.
+* **New Features**
+	* Added new 'pre', 'class', and 'filter' shortcode attributes.
+* **Improvements**
+	* *None*
+* **Bugfixes**
+	* *None*
+
+== Upgrade Notice ==
+
+= 1.1 =
+
+Added new 'pre', 'class', and 'filter' shortcode attributes.
 
